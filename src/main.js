@@ -5,7 +5,5 @@ document.body.innerHTML = '';
 
 new Viz({
 	target: document.body,
-	props: {
-		segments: data
-	}
+	props: data
 });

@@ -1,11 +1,12 @@
 <script>
-	export let segments = { 
+	export let segments = {
 		name: '',
 		images: [],
 	};
 
 	let name = segments.name;
 	let images = segments.images;
+
 </script>
 
 <style>
@@ -16,10 +17,9 @@
 	<div>{name}</div>
 
 	Name: <input bind:value={name} />
-	
-	{{#each images as href}}
-  	<img bind:href={href}/>
-  {{/each}}
 
-	
+	{#each images as href, index}
+  	<img alt="" src={href}/>
+  {/each}
+
 </div>

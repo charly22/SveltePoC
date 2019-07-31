@@ -16,7 +16,7 @@
     "node-fetch": "^2.6.0"
   },
   "scripts": {
-    "start": "forever --watch --watchDirectory . ./server/index.js",
+    "start": "forever --watch ./server/index.js",
     "build": "npm run build:client && npm run build:ssr",
     "build:client": "rollup -c rollup.config.js",
     "build:ssr": "rollup -c rollup.config.ssr.js",
