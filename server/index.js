@@ -9,7 +9,7 @@ const data = require('../src/data.json');
 const api = new API('https://widgets.olapic-cdn.com');
 const template = fs.readFileSync('server/index.html', 'utf-8');
 
-app.use(express.static('./bundle/public'))
+app.use(express.static('./build/public'))
 
 app.get('/:hash', (req, res) => {
 
@@ -22,7 +22,14 @@ app.get('/:hash', (req, res) => {
 	res.status(200);
 	res.set('Content-type', 'text/html');
 
-	const { html, css } = Viz.render(data);
+	// const data = getData(req);
+	const datax = {
+		segments: {
+			name: 'Pepe BE',
+			images: data.segments.images.slice().reverse()
+		}
+	}
+	const { html, css } = Viz.render(datax);
 
 	res.send(template
 		.replace('<!-- viz -->', html)
@@ -46,10 +53,9 @@ async function getData(req) {
 
 	const data = {
 		segments: {
-			name: 'Pepex',
+			name: 'Pepe BE',
 			images: images
 		}
 	}
-	console.log(data);
 	return data;
 }
