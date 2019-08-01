@@ -26,6 +26,7 @@ app.get('/:hash', (req, res) => {
 	const datax = {
 		segments: {
 			name: 'Pepe BE',
+			delayed: false,
 			images: data.segments.images.slice().reverse()
 		}
 	}

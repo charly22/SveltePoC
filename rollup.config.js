@@ -11,6 +11,9 @@ export default {
 	plugins: [
 		resolve(),
 		json(),
-		svelte({ css: false }),
+		svelte({ 
+			css: false,
+			hydratable: true
+		}),
 	]
 };
