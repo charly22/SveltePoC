@@ -6,13 +6,38 @@ class API {
     this.baseUrl = baseUrl;
   }
 
-  getPreloadLinks(hash) {
-    return fetch(`${this.baseUrl}/widgets/${hash}/preload`)
+  async getMediaLink(hash) {
+  	const preloadLinks = await fetch(`${this.baseUrl}/widgets/${hash}/preload`)
       .then(res => res.json())
       .catch(() => []);
 
-    return links;
+  	const next = preloadLinks.data._links
+  		.find(item => item.id === 'stream.medium.collection')
+
+    return next.href;
   }
+
+  async getMedia(url) {
+  	const media = await fetch(url)
+  		.then(res => res.json())
+  		.catch(() => []);
+
+  	const images = [];
+  	media.data._embedded.media.forEach(
+  		m => images.push({
+  			href: m.images.mobile,
+  			caption: m.caption,
+  		})
+  	)
+
+  	const data = {
+      images: images,
+      next: 'https:' + media.data._links.next.href
+  	}
+
+  	return data
+  }
+
 }
 
 module.exports = API;

@@ -11,8 +11,8 @@ export default {
 	plugins: [
 		resolve(),
 		json(),
-		svelte({ 
-			generate: 'ssr' 
+		svelte({
+			generate: 'ssr'
 		})
 	]
 };

@@ -1,34 +1,46 @@
 <script>
-	export let segments;
+	import Image from './Image.svelte'
+	export let segments
 
-	let name = segments.name;
-	let images = [];
-	
-	if (segments.delayed) {
-		setTimeout(() => {
-			 images = segments.images;
-		}, 2000);
-	} else {
-		images = segments.images;
+	async function handleLoadmore() {
+		if (segments.next) {
+
+			const result = await fetch(segments.next)
+				.then(res => res.json())
+
+			result.data._embedded.media.forEach(
+				m => segments.images.push({
+					href: m.images.mobile,
+					caption: m.caption,
+				})
+			)
+			segments.images = segments.images;
+			segments.next = 'https:' + result.data._links.next.href;
+		}
 	}
-
 </script>
 
 <style>
-	img {
-		height: 50px;
-	  width: 50px;
+	.wrapper {
+		flex: auto;
 	}
 </style>
 
 <div>
 
-	<div>{name}</div>
+	<div class="wrapper">
+		<div>{segments.name}</div>
+		Name: <input bind:value={segments.name} />
+	</div>
 
-	Name: <input bind:value={name} />
+	<div class="wrapper">
+		{#each segments.images as {caption, href}}
+	  	<Image alt={caption} src={href} />
+	  {/each}
+	</div>
 
-	{#each images as href, index}
-  	<img alt="" src={href} />
-  {/each}
+	<div class="wrapper">
+		<button on:click={handleLoadmore}> Load More </button>
+	</div>
 
 </div>

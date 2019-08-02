@@ -1,8 +1,7 @@
 import Viz from './Viz.svelte';
-import data from './data.json';
 
 new Viz({
 	target: document.body,
 	hydrate: true,
-	props: data,
+	props: JSON.parse(atob(window.__OLAPIC_PRELOADED_STATE__))
 });
