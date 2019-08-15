@@ -7,12 +7,14 @@ class API {
   }
 
   async getMediaLink(hash) {
+
   	const preloadLinks = await fetch(`${this.baseUrl}/widgets/${hash}/preload`)
       .then(res => res.json())
       .catch(() => []);
 
   	const next = preloadLinks.data._links
-  		.find(item => item.id === 'stream.medium.collection')
+  		.find(item => item.id.indexOf('.medium.collection') > -1)
+
 
     return next.href;
   }

@@ -1,7 +1,7 @@
-import Viz from './Viz.svelte';
+import LoadMoreButton from './LoadMoreButton.svelte'
 
-new Viz({
-	target: document.body,
-	hydrate: true,
-	props: JSON.parse(atob(window.__OLAPIC_PRELOADED_STATE__))
+new LoadMoreButton({
+	target: document.getElementById('loadmorewrapper'),
+		hydrate: true,
+		props: JSON.parse(atob(window.__OLAPIC_PRELOADED_STATE__))
 });
