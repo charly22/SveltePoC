@@ -1,23 +1,63 @@
 <!doctype html>
 <html>
 <head>
+	<title>Svelte SSR PoC</title>
 	<meta charset='utf-8'>
 	<meta name='viewport' content='width=device-width'>
-
-	<style>
-		html, body {
-			height: 100%;
-			font-family: arial, sans-serif;
-		}
-
-		/* css */
-	</style>
+	<link rel="stylesheet" href="/${hash}/css"/>
 </head>
 <body>
-	<!-- viz -->
+	${html}
+	<script>window.__OLAPIC_PRELOADED_STATE__ = "${state}"</script>
 	<script>
-		window.__OLAPIC_PRELOADED_STATE__ = '$__OLAPIC_PRELOADED_STATE__'
+
+    function standardDeviation(values){
+      var avg = average(values);
+
+      var squareDiffs = values.map(function(value){
+        var diff = value - avg;
+        var sqrDiff = diff * diff;
+        return sqrDiff;
+      });
+
+      var avgSquareDiff = average(squareDiffs);
+
+      var stdDev = Math.sqrt(avgSquareDiff);
+      return stdDev;
+    }
+
+    function average(data){
+      var sum = data.reduce(function(sum, value){
+        return sum + value;
+      }, 0);
+
+      var avg = sum / data.length;
+      return avg;
+    }
+
+    window.perf = []
+
+    let el;
+    for (var i = 0; i < 1; i++) {
+      el = document.createElement("script")
+      el.src = 'bundle.js'
+      el.id = 'app'
+      document.body.appendChild(el)
+      el.remove();
+    }
+
+		// comment this out for TTBI test
+  	setTimeout(() => {
+      console.log('avg:', average(window.perf))
+      console.log('stddev:', standardDeviation(window.perf))
+    },100)
+
+		// // uncomment this out for TTBI test
+		// setTimeout(() => {
+		// 	console.log(performance.getEntriesByName("scrolled"));
+		// 	performance.clearMarks();
+		// },3000)
+
 	</script>
-	<script async defer src='bundle.js'></script>
 </body>
 </html>

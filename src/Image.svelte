@@ -5,9 +5,12 @@
 
 <style>
 	img {
-		height: 150px;
-	  width: 150px;
+	  width: 160px;
+	  height: 160px;
+	  margin: 0;
+	  display: inline-block;
 	}
+
 </style>
 
 <img {alt} {src} />

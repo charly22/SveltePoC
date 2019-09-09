@@ -1,46 +1,137 @@
+
+<style>
+	:global(html) {
+		margin: 0;
+	}
+
+	:global(body) {
+		margin: 0;
+	}
+
+	.carousel {
+	  display: flex;
+	  flex-direction: row;
+	  max-width: 360px;
+	}
+
+	.carousel-img {
+	  display: block;
+	  margin: auto;
+	  max-height: 160px;
+	  overflow-x: scroll;
+	  overflow-y: hidden;
+	  white-space: nowrap;
+	  -ms-overflow-style: none;
+	  scrollbar-width: none;
+	  scroll-behavior: smooth;
+	  flex-grow: 1;
+	}
+	.carousel-img::-webkit-scrollbar {
+	    display: none;
+	}
+
+	.carousel > .arrow {
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	  flex-direction: column;
+	  text-align: center;
+	  background-color: rgba(33, 33, 33, .3);
+	  align-items: center;
+	  width: 20px;
+	  cursor: pointer;
+	  user-select: none;
+	  flex-grow: 0;
+	  flex-shrink: 0;
+	}
+
+</style>
+
 <script>
 	import Image from './Image.svelte'
 	export let segments
 
-	async function handleLoadmore() {
-		if (segments.next) {
+	// async function handleLoadmore() {
+	// 	if (segments.next) {
+	//
+	// 		const result = await fetch(segments.next)
+	// 			.then(res => res.json())
+	//
+	// 		result.data._embedded.media.forEach(
+	// 			m => segments.images.push({
+	// 				href: m.images.mobile,
+	// 				caption: m.caption,
+	// 			})
+	// 		)
+	// 		segments.images = segments.images;
+	// 		segments.next = 'https:' + result.data._links.next.href;
+	// 	}
+	// }
 
-			const result = await fetch(segments.next)
-				.then(res => res.json())
+	let programaticScroll = null;
+	let lastScroll = 0;
 
-			result.data._embedded.media.forEach(
-				m => segments.images.push({
-					href: m.images.mobile,
-					caption: m.caption,
-				})
-			)
-			segments.images = segments.images;
-			segments.next = 'https:' + result.data._links.next.href;
-		}
+	function handleClickR(e) {
+	  let c = e.target.parentElement.getElementsByClassName('carousel-img')[0]
+	  scrollSlider(c, false);
+	}
+
+	function handleClickL(e) {
+	  let c = e.target.parentElement.getElementsByClassName('carousel-img')[0]
+	  scrollSlider(c, true);
+	}
+
+	function scrollSlider(c, left = true) {
+	  programaticScroll = true;
+	  let discrete = Math.ceil(c.scrollLeft / 160) * 160 + 160 * (left ? -1 : 1)
+	  c.scrollLeft = discrete
+
+		performance.mark('scrolled');
+	}
+
+	let isScrolling;
+
+	function onScroll(e) {
+
+		  console.log( 'Scrolling fired', lastScroll);
+
+	    window.clearTimeout( isScrolling );
+
+	    isScrolling = setTimeout(function() {
+
+	      if (programaticScroll) {
+	        programaticScroll = false
+	  		  console.log( 'Scrolling has stopped because is programaticScroll' );
+	        return;
+	      }
+
+	      let c = e.target
+	      let discrete;
+	      programaticScroll = true;
+	      if (lastScroll < c.scrollLeft) {
+	        console.log('R because last:', lastScroll, '& now:', c.scrollLeft)
+	        discrete = Math.ceil(c.scrollLeft / 160) * 160;
+	      } else {
+	        console.log('L because last:', lastScroll, '& now:', c.scrollLeft)
+	        discrete = Math.floor(c.scrollLeft / 160) * 160;
+	      }
+	  		console.log('Recalculation from:', c.scrollLeft, ' to:', discrete);
+	      c.scrollLeft = discrete
+	      lastScroll = discrete
+	      programaticScroll = true;
+
+				performance.mark('scrolled');
+
+	  	}, 50);
 	}
 </script>
 
-<style>
-	.wrapper {
-		flex: auto;
-	}
-</style>
-
-<div>
-
-	<div class="wrapper">
-		<div>{segments.name}</div>
-		Name: <input bind:value={segments.name} />
-	</div>
-
-	<div class="wrapper">
+<div class="carousel">
+  <div class="arrow" on:click={handleClickL}>L</div>
+  <div class="carousel-img" on:scroll={onScroll}>
 		{#each segments.images as {caption, href}}
-	  	<Image alt={caption} src={href} />
+	  	<Image alt={caption} src={href + '?optimized'} />
 	  {/each}
 	</div>
-
-	<div class="wrapper">
-		<button on:click={handleLoadmore}> Load More </button>
-	</div>
-
+  <div class="arrow" on:click={handleClickR}>R</div>
 </div>
