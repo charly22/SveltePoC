@@ -1,5 +1,3 @@
 .DS_Store
-node_modulesbuild/
 build
-public
 node_modules/
