@@ -48,25 +48,8 @@
 </style>
 
 <script>
-	import Image from './Image.svelte'
-	export let segments
-
-	// async function handleLoadmore() {
-	// 	if (segments.next) {
-	//
-	// 		const result = await fetch(segments.next)
-	// 			.then(res => res.json())
-	//
-	// 		result.data._embedded.media.forEach(
-	// 			m => segments.images.push({
-	// 				href: m.images.mobile,
-	// 				caption: m.caption,
-	// 			})
-	// 		)
-	// 		segments.images = segments.images;
-	// 		segments.next = 'https:' + result.data._links.next.href;
-	// 	}
-	// }
+	import CarouselItemImage from './CarouselItemImage.svelte'
+	export let images
 
 	let programaticScroll = null;
 	let lastScroll = 0;
@@ -94,9 +77,7 @@
 	function onScroll(e) {
 
 		  console.log( 'Scrolling fired', lastScroll);
-
 	    window.clearTimeout( isScrolling );
-
 	    isScrolling = setTimeout(function() {
 
 	      if (programaticScroll) {
@@ -129,8 +110,8 @@
 <div class="carousel">
   <div class="arrow" on:click={handleClickL}>L</div>
   <div class="carousel-img" on:scroll={onScroll}>
-		{#each segments.images as {caption, href}}
-	  	<Image alt={caption} src={href + '?optimized'} />
+		{#each images as {caption, href}}
+	  	<CarouselItemImage alt={caption} src={href + '?optimized'} />
 	  {/each}
 	</div>
   <div class="arrow" on:click={handleClickR}>R</div>

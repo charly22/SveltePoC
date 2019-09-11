@@ -5,7 +5,7 @@ import svelte from 'rollup-plugin-svelte';
 export default {
 	input: 'src/main.js',
 	output: {
-		file: 'build/public/bundle.js',
+		file: 'build/bundle.js',
 		format: 'iife',
 	},
 	plugins: [

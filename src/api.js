@@ -4,9 +4,10 @@ class API {
 
   constructor(baseUrl) {
     this.baseUrl = baseUrl;
+    this.mediaCache = {};
   }
 
-  async getMediaLink(hash) {
+  async _getMediaLink(hash) {
   	const preloadLinks = await fetch(`${this.baseUrl}/widgets/${hash}/preload`)
       .then(res => res.json())
       .catch(() => []);
@@ -17,7 +18,7 @@ class API {
     return next.href;
   }
 
-  async getMedia(url) {
+  async _getMediaFromUrl(url) {
   	const media = await fetch(url)
   		.then(res => res.json())
   		.catch(() => []);
@@ -36,6 +37,14 @@ class API {
   	}
 
   	return data
+  }
+
+  async getMediaFromHash(hash, useCache = true) {
+    if (!this.mediaCache[hash] || !useCache) {
+      const mediaLink = await this._getMediaLink(hash)
+      this.mediaCache[hash] = await this._getMediaFromUrl(mediaLink)
+    }
+    return this.mediaCache[hash];
   }
 
 }

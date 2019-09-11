@@ -14,10 +14,12 @@
   "dependencies": {
     "es6-dynamic-template": "^2.0.0",
     "express": "^4.17.1",
-    "node-fetch": "^2.6.0"
+    "hapi": "^16.7.0",
+    "node-fetch": "^2.6.0",
+    "spdy": "^4.0.1"
   },
   "scripts": {
-    "start": "forever --watch ./server/index.js",
+    "start": "forever --watch ./server/server.js",
     "build": "npm run build:client && npm run build:ssr",
     "build:client": "rollup -c rollup.config.js",
     "build:ssr": "rollup -c rollup.config.ssr.js",
