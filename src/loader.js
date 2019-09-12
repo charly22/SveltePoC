@@ -1,5 +1,3 @@
-const hash = 'fcdd8ac8bd9900a108ff0c98ed703cf6';
-
 // TODO fetch the needed polyfils
 // TODO gather the needed params such tag_based_key
 

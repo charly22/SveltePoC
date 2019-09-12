@@ -1,56 +1,71 @@
-const fs = require('fs');
-const express = require('express');
-const spdy = require('spdy');
-const fetch = require("node-fetch");
+const fs = require('fs')
+const express = require('express')
+const spdy = require('spdy')
+const fetch = require("node-fetch")
+const fillTemplate = require('es6-dynamic-template');
+const Api = require('../src/Api.js')
+
+const loader = fs.readFileSync(__dirname + '/../src/loader.js').toString();
+
+const api = new Api('https://widgets.olapic-cdn.com')
+
 const app = express()
-
-const Viz = require('../build/Viz-ssr');
-const Api = require('../src/Api.js');
-
-const api = new Api('https://widgets.olapic-cdn.com');
 app.use(express.static('./public'))
 
-app.get('/:hash/html', async (req, res) => {
+app.get('/:hash/loader', async (req, res) => {
+	const hash = req.params.hash
+	
+	const data = await api.getMediaFromHash(req.params.hash)
+	
+	// TODO Viz should be by hash
+	const Viz = require('../build/Viz-ssr')
+	const { html, css } = Viz.render(data)
+	
+	res
+		.push(`/${hash}/html`, {
+			status: 200,
+			method: 'GET',
+			request: {accept: '*/*'},
+			response: {'content-type': 'text/html'}
+		})
+		.on('error', () => {})
+		.end(html)
 
-	const hash = req.params.hash;
+	res
+		.push(`/${hash}/css`, {
+			status: 200,
+	    method: 'GET',
+	    request: {accept: '*/*'},
+			response: {'content-type': 'text/css'}
+		})
+		.on('error', () => {})
+		.end(css.code)
 
-	data = await api.getMediaFromHash(req.params.hash)
+	res
+		.push(`/${hash}/state`, {
+			status: 200,
+	    method: 'GET',
+	    request: {accept: '*/*'},
+			response: {'content-type': 'application/json'}
+		})
+		.on('error', () => {})
+		.end(JSON.stringify(data))
 
-	// TODO Viz should be instantiated by hash (or ID)
-	const { html, css } = Viz.render(data);
+	res
+		.push(`/${hash}/app`, {
+			status: 200,
+	    method: 'GET',
+	    request: {accept: '*/*'},
+			response: {'content-type': 'application/javascript'}
+		})
+		.on('error', () => {})
+		.end(fs.readFileSync(__dirname + '/../build/bundle.js'))
 
-	res.push(`/${hash}/css`, {
-		status: 200,
-    method: 'GET',
-    request: {accept: '*/*'},
-		response: {'content-type': 'text/css'}
-	})
-	.on('error', () => {})
-	.end(css.code)
-
-	res.push(`/${hash}/state`, {
-		status: 200,
-    method: 'GET',
-    request: {accept: '*/*'},
-		response: {'content-type': 'application/json'}
-	})
-	.on('error', () => {})
-	.end(JSON.stringify(data))
-
-	res.push(`/${hash}/app`, {
-		status: 200,
-    method: 'GET',
-    request: {accept: '*/*'},
-		response: {'content-type': 'application/javascript'}
-	})
-	.on('error', () => {})
-	.end(fs.readFileSync(__dirname + '/../build/bundle.js'))
-
-	res.status(200);
-	res.set('Content-type', 'text/html');
-	res.end(html);
-
-});
+	res
+		.status(200)
+	 	.set('Content-type', 'text/html')
+		.end(fillTemplate(loader, {hash: hash}))
+})
 
 spdy
 	.createServer({
@@ -59,4 +74,4 @@ spdy
 	}, app)
 	.listen(4443, 'localhost', () => {
 		console.log('https://localhost:4443/')
-	});
+	})

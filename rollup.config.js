@@ -13,7 +13,8 @@ export default {
 		json(),
 		svelte({
 			css: false,
-			hydratable: true
+			hydratable: true,
+			immutable: true,
 		}),
 	]
 };

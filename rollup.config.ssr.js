@@ -12,7 +12,7 @@ export default {
 		resolve(),
 		json(),
 		svelte({
-			generate: 'ssr'
+			generate: 'ssr',
 		})
 	]
 };
