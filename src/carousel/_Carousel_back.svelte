@@ -1,4 +1,3 @@
-
 <style>
 	:global(html) {
 		margin: 0;
@@ -48,7 +47,7 @@
 </style>
 
 <script>
-	import CarouselItemImage from './CarouselItemImage.svelte'
+	import Asset from './Asset.svelte'
 	export let images
 
 	let programaticScroll = null;
@@ -111,7 +110,7 @@
   <div class="arrow" on:click={handleClickL}>L</div>
   <div class="carousel-img" on:scroll={onScroll}>
 		{#each images as {caption, href}}
-	  	<CarouselItemImage alt={caption} src={href + '?optimized'} />
+	  	<Asset alt={caption} src={href + '?optimized'} />
 	  {/each}
 	</div>
   <div class="arrow" on:click={handleClickR}>R</div>

@@ -1,6 +1,6 @@
 <script>
-	export let src;
-	export let alt;
+	export let img;
+	const {alt, src} = img;
 </script>
 
 <style>
@@ -10,7 +10,6 @@
 	  margin: 0;
 	  display: inline-block;
 	}
-
 </style>
 
 <img {alt} {src} />

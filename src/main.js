@@ -1,7 +1,7 @@
 performance.mark("begin")
-import Viz from './Viz.svelte';
+import Carousel from './Carousel.svelte';
 
-new Viz({
+new Carousel({
 	target: document.body,
 	hydrate: true,
 	props: window.__OLAPIC_PRELOADED_STATE__,

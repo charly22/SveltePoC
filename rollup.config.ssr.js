@@ -3,9 +3,9 @@ import json from 'rollup-plugin-json';
 import svelte from 'rollup-plugin-svelte';
 
 export default {
-	input: 'src/Viz.svelte',
+	input: 'src/Carousel.svelte',
 	output: {
-		file: 'build/Viz-ssr.js',
+		file: 'build/Carousel-ssr.js',
 		format: 'cjs'
 	},
 	plugins: [

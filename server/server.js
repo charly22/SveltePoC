@@ -19,8 +19,8 @@ app.get('/:hash/loader_bundle', async (req, res) => {
 	const data = await api.getMediaFromHash(req.params.hash)
 
 	// TODO Viz should be by hash
-	const Viz = require('../build/Viz-ssr')
-	const { html, css } = Viz.render(data)
+	const Carousel = require('../build/Carousel-ssr')
+	const { html, css } = Carousel.render(data)
 
 	res
 		.push(`/${hash}/app`, {
