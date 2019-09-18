@@ -3,7 +3,7 @@ import json from 'rollup-plugin-json';
 import svelte from 'rollup-plugin-svelte';
 
 export default {
-	input: 'src/Carousel.svelte',
+	input: 'src/carousel/Carousel.svelte',
 	output: {
 		file: 'build/Carousel-ssr.js',
 		format: 'cjs'

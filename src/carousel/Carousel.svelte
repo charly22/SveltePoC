@@ -2,13 +2,13 @@
 	import Arrow from './Arrow.svelte'
 	import Viewport from './Viewport.svelte'
 
-	export let images
+	export let images;
 
 </script>
 
 <style>
 	.carousel {
-
+		display: flex;
 	}
 </style>
 
@@ -17,3 +17,4 @@
 	<Viewport {images} />
 	<Arrow direction='R'> R </Arrow>
 </div>
+

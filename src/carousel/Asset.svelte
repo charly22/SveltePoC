@@ -1,6 +1,7 @@
 <script>
-	export let img;
-	const {alt, src} = img;
+	export let image;
+	const alt = image.caption
+	const src = image.href
 </script>
 
 <style>
@@ -9,6 +10,7 @@
 	  height: 160px;
 	  margin: 0;
 	  display: inline-block;
+		flex-shrink: 0;
 	}
 </style>
 

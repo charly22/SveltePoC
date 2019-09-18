@@ -2,17 +2,19 @@
   import Asset from './Asset.svelte'
 	export let images
 
-  const img = images.pop()
 </script>
 
-<styles>
+<style>
   .page {
-    width: 200px;
-    height: 200px;
+    width: 160px;
+    height: 320px;
     display: flex;
+    flex-direction: column;
   }
-</styles>
+</style>
 
 <div class="page">
-  <Asset {img}>
+  {#each images as image} 
+    <Asset {image} />
+  {/each}
 </div>

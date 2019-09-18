@@ -1,5 +1,5 @@
 performance.mark("begin")
-import Carousel from './Carousel.svelte';
+import Carousel from './carousel/Carousel.svelte';
 
 new Carousel({
 	target: document.body,

@@ -7,7 +7,7 @@
 
 </script>
 
-<styles>
+<style>
 
 	.arrow {
 		display: flex;
@@ -24,7 +24,7 @@
 		flex-shrink: 0;
 	}
 
-</styles>
+</style>
 
 <div class="arrow" on:click={handleClick}>
   <slot></slot>
