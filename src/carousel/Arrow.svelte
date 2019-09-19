@@ -2,7 +2,6 @@
 
   export let direction
   export let images
-  export let toggleAnimate
 
   function handleClick(e) {
 

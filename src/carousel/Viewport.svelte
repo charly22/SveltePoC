@@ -14,7 +14,7 @@
   }
 </style>
 
-<div class='viewport' class:animate={animate} on:scroll={onViewportScroll}>
+<div class='viewport' on:scroll={onViewportScroll}>
   {#each {length: 25} as _, i}
     {#if imagesStack.length}
       {#if getRandPageType() === 1}
@@ -32,12 +32,6 @@
   import { onMount } from 'svelte'
 
   export let images
-  // export let toggleAnimate
-  let animate = false
-  // toggleAnimate.subscribe(value => {
-  // 	animate = value
-  // });
-  //
   const imagesStack = [...images]
 
   const pageTypes = ['Page', 'WidePage']
@@ -49,7 +43,6 @@
   let prevScrollPosition = 0;
   let programaticScrollStopped = false;
   let programaticScrollInfinite = false;
-  let animationRequested = false;
   const onViewportScroll = e => {
 
     const proximityThreshold = 160 * 1.9
