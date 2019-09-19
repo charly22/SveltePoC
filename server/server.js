@@ -110,6 +110,6 @@ spdy
 		key: fs.readFileSync(__dirname + '/localhost-privkey.pem'),
 	  cert:  fs.readFileSync(__dirname + '/localhost-cert.pem'),
 	}, app)
-	.listen(4443, 'localhost', () => {
+	.listen(4443, '0.0.0.0', () => {
 		console.log('https://localhost:4443/')
 	})

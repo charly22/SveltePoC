@@ -1,10 +1,13 @@
 <script>
   import Asset from './Asset.svelte'
-  export let imagesStack
+	export let imagesStack
 
-  let image;
+  const images = [];
   if (imagesStack.length) {
-    image = imagesStack.pop()
+    images.push(imagesStack.pop())
+  }
+  if (imagesStack.length) {
+    images.push(imagesStack.pop())
   }
 
 </script>
@@ -12,14 +15,14 @@
 <style>
   .page {
     width: 160px;
-    height: 320px;
+    height: 160px;
     display: flex;
     flex-direction: column;
   }
 </style>
 
 <div class="page">
-  {#if image}
+  {#each images as image}
     <Asset {image} />
-  {/if}
+  {/each}
 </div>
