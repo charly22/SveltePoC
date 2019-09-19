@@ -1,7 +1,6 @@
 <script>
 
   export let direction
-  export let images
 
   function handleClick(e) {
 

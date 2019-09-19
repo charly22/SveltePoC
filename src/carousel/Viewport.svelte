@@ -7,7 +7,6 @@
     overflow-x: scroll;
     overflow-y: hidden;
     scrollbar-width: none;
-    /* scroll-behavior: smooth; */
   }
   .viewport::-webkit-scrollbar {
       display: none;
@@ -15,14 +14,8 @@
 </style>
 
 <div class='viewport' on:scroll={onViewportScroll}>
-  {#each {length: 25} as _, i}
-    {#if imagesStack.length}
-      {#if getRandPageType() === 1}
-        <Page {imagesStack} />
-      {:else}
-        <WidePage {imagesStack} />
-      {/if}
-    {/if}
+  {#each images as image}
+    <Page {image} />
   {/each}
 </div>
 
@@ -32,12 +25,6 @@
   import { onMount } from 'svelte'
 
   export let images
-  const imagesStack = [...images]
-
-  const pageTypes = ['Page', 'WidePage']
-  const getRandPageType = () => {
-    return Math.floor((Math.random() * 2))
-  }
 
   const thumbSize = 160
   let prevScrollPosition = 0;

@@ -1,11 +1,6 @@
 <script>
   import Asset from './Asset.svelte'
-  export let imagesStack
-
-  let image;
-  if (imagesStack.length) {
-    image = imagesStack.pop()
-  }
+  export let image
 
 </script>
 
