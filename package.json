@@ -16,6 +16,7 @@
     "express": "^4.17.1",
     "hapi": "^16.7.0",
     "node-fetch": "^2.6.0",
+    "npm-watch": "^0.6.0",
     "spdy": "^4.0.1"
   },
   "scripts": {
@@ -23,6 +24,15 @@
     "build": "npm run build:client && npm run build:ssr",
     "build:client": "rollup -c rollup.config.js",
     "build:ssr": "rollup -c rollup.config.ssr.js",
-    "predeploy": "npm run build"
+    "predeploy": "npm run build",
+    "watch": "npm-watch"
+  },
+  "watch": {
+    "build": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "svelte"
+    }
   }
 }
